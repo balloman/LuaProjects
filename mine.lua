@@ -11,7 +11,24 @@ function checkCobble()
         rb.select(i)
         rb.drop(64)
         rb.suck()
+      end
+    end
+  end
+end
 
+function robotFull()
+  local array = {}
+  for i=1,15,1
+  do
+    if (rb.space(i) = 0) then
+      array[i] = true
+    else
+      array[i] = false
+  end
+  local full = false
+  for i = 0, 15, 1
+    if array[i] = true
+      full = true
 
 function mineRow(length)
   for i=length, 1, -1
