@@ -1,13 +1,28 @@
 local rb = require("robot")
 local c = require("component")
+local g = component.generator
 
-function checkCobble()
-  for i = 1, 15, 1
+function fillGenerator()
+  for i = 1, 16, 1
   do
     local item = component.inventory_controller.getStackInInternalSlot(i)
     
     if item then
-      if (item.name = "mc:block.Cobblestone") then
+      if (item.name = "coal") then
+        rb.select(i)
+        g.insert(64)
+      end
+    end
+  end
+end
+
+function checkCobble()
+  for i = 1, 16, 1
+  do
+    local item = component.inventory_controller.getStackInInternalSlot(i)
+    
+    if item then
+      if (item.name = "cobblestone") then
         rb.select(i)
         rb.drop(64)
         rb.suck()
@@ -16,28 +31,14 @@ function checkCobble()
   end
 end
 
-function robotFull()
-  local array = {}
-  for i=1,15,1
-  do
-    if (rb.space(i) = 0) then
-      array[i] = true
-    else
-      array[i] = false
-  end
-  local full = false
-  for i = 0, 15, 1
-    if array[i] = true
-      full = true
 
 function mineRow(length)
   for i=length, 1, -1
   do
     toolCheck = rb.swing()
-    if (toolCheck == false) then
-      repeat
-        toolCheck = rb.swing()
-      until (toolCheck == true)
+    succ = rb.suck()
+    if (succ == false) then
+      checkCobble()
     rb.forward()
   end
 end
@@ -62,16 +63,24 @@ function nextLevel()
   rb.turnAround()
 end
 
-function mine(levels)
+function mine(levels, x, y)
   for i=levels, 1, -1
   do
-    mineRow(9)
-    nextRow("right")
-    mineRow(9)
-    nextRow("left")
-    mineRow(9)
+    for i = 1, y, 1
+    do
+      mineRow(x)
+      if (i % 2 == 0) then
+        nextRow("left")
+      else
+        nextRow("right")
+      end
+    end
     nextLevel()
   end
 end
 
-mine(30)
+mine(arg[1], arg[2], arg[3])
+for i = arg[1], 1, -1
+do
+  robot.up()
+end
