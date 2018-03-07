@@ -1,6 +1,6 @@
 local rb = require("robot")
 local c = require("component")
-local g = component.generator
+local g = c.generator
 
 function fillGenerator()
   for i = 1, 16, 1
@@ -39,6 +39,7 @@ function mineRow(length)
     succ = rb.suck()
     if (succ == false) then
       checkCobble()
+    end
     rb.forward()
   end
 end
@@ -79,8 +80,14 @@ function mine(levels, x, y)
   end
 end
 
-mine(arg[1], arg[2], arg[3])
-for i = arg[1], 1, -1
+io.write("Enter how many levels, then the x and y which will be the dimensions.")
+argum = {}
+for i = 1, 3, 1
+do
+  argum[i] = io.read()
+end
+mine(argum[1], argum[2], argum[3])
+for i = argum[1], 1, -1
 do
   robot.up()
 end
