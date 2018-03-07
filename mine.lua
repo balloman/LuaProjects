@@ -8,7 +8,7 @@ function fillGenerator()
     local item = component.inventory_controller.getStackInInternalSlot(i)
     
     if item then
-      if (item.name = "coal") then
+      if (item.name == "coal") then
         rb.select(i)
         g.insert(64)
       end
@@ -22,7 +22,7 @@ function checkCobble()
     local item = component.inventory_controller.getStackInInternalSlot(i)
     
     if item then
-      if (item.name = "cobblestone") then
+      if (item.name == "cobblestone") then
         rb.select(i)
         rb.drop(64)
         rb.suck()
