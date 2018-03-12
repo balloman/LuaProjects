@@ -33,12 +33,18 @@ end
 
 
 function mineRow(length)
-  for i=length, 1, -1
+  for i=1, length, 1
   do
-    toolCheck = rb.swing()
-    succ = rb.suck()
+    repeat
+      ,nextBlock = rb.detect()
+      rb.swing()
+    until(nextBlock ~= "solid")
+    succ = rb.suck
     if (succ == false) then
-      checkCobble()
+      io.write(nextBlock)
+      if (nextBlock ~= "air") then
+        checkCobble()
+      end
     end
     rb.forward()
   end
@@ -64,21 +70,20 @@ function nextLevel()
   rb.turnAround()
 end
 
-function mine(levels, x, y)
-  for i=levels, 1, -1
+function mineLevel(x, y)
+  for a = 1, y, 1
   do
-    for i = 1, y, 1
-    do
-      mineRow(x)
-      if (i % 2 == 0) then
-        nextRow("left")
-      else
-        nextRow("right")
-      end
-    end
-    nextLevel()
+    mineRow(x)
+    nextRow()
   end
-end
+  mineRow(x+1)
+
+function mine(levels, x, y)
+  for i = 1, levels, 1
+  do
+    nextLevel()
+    mineLevel(x-1, y-1)
+  end
 
 io.write("Enter how many levels, then the x and y which will be the dimensions.")
 argum = {}
