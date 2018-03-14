@@ -36,7 +36,7 @@ function mineRow(length)
   for i=1, length, 1
   do
     repeat
-      ,nextBlock = rb.detect()
+      d,nextBlock = rb.detect()
       rb.swing()
     until(nextBlock ~= "solid")
     succ = rb.suck
@@ -56,7 +56,7 @@ function nextRow(direction)
     rb.swing()
     rb.forward()
     rb.turnLeft()
-  else
+  elseif (direction == "right") then
     rb.turnRight()
     rb.swing()
     rb.forward()
@@ -74,9 +74,14 @@ function mineLevel(x, y)
   for a = 1, y, 1
   do
     mineRow(x)
-    nextRow()
+    if (a % 2 == 0) then
+      nextRow("left")
+    elseif (a % 2 ~= 0) then
+      nextRow("right")
+    end
   end
-  mineRow(x+1)
+  mineRow(x)
+end
 
 function mine(levels, x, y)
   for i = 1, levels, 1
@@ -84,6 +89,7 @@ function mine(levels, x, y)
     nextLevel()
     mineLevel(x-1, y-1)
   end
+end
 
 io.write("Enter how many levels, then the x and y which will be the dimensions.")
 argum = {}
@@ -94,5 +100,5 @@ end
 mine(argum[1], argum[2], argum[3])
 for i = argum[1], 1, -1
 do
-  robot.up()
+  rb.up()
 end
